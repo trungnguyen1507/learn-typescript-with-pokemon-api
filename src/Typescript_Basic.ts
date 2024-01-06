@@ -127,6 +127,51 @@ let size = Sizes.S
 // Generic type
 const handleClick = <Type>(value: Type) => value
 handleClick<number>(3)
+type User = {
+  name: string
+  age: number
+}
+// type Identity = {<Input>(value: Input): Input}
+interface Identity<Input> {
+  (value: Input): Input
+}
+const identity = <Type>(value: Type) => value
+// const result = identity<number>(2023)
+const result = identity<User>({ name: 'John', age: 30 })
+
+// const myIdentity: <Input>(value: Input) => Input = identity
+// const myIdentity: {<Input>(value: Input): Input} = identity
+// const myIdentity: Identity = identity
+const myIdentity: Identity<number> = identity
+myIdentity(100)
+
+// Ràng buộc Generics
+const logIdentity = <Type extends { length: number }>(value: Type) => {
+  console.log(value.length)
+  return value
+}
+logIdentity({
+  length: 200
+})
+
+const getValue = <Obj, Key extends keyof Obj>(obj: Obj, key: Key) => {
+  return obj[key]
+}
+getValue(
+  {
+    name: 'John',
+    age: 30
+  },
+  'name'
+)
+
+// Default Generic
+interface Box<Type = string> {
+  value: Type
+}
+const box: Box = {
+  value: 'John'
+}
 
 // Class
 class Person {
